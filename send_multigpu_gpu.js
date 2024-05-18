@@ -196,7 +196,7 @@ function main() {
         console.log('Target address:', targetAddress);
         console.log('Date, time, status, seed, attempts, successes, timespent');
 
-		const index = 0
+		let index = 0
         while (go) {
             
 			const allwall = mySeedall.split('|');
