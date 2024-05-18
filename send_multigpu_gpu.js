@@ -206,6 +206,11 @@ function main() {
         }, 5000);
         while (go) {
             const giverAddress = bestGiver.address;
+            const keyPair = yield (0, crypto_1.mnemonicToWalletKey)(mySeed.split(' '));
+            const wallet = ton_2.WalletContractV4.create({
+                workchain: 0,
+                publicKey: keyPair.publicKey
+            });
             const [seed, complexity, iterations] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
             if (seed === lastMinedSeed) {
                 // console.log('Wating for a new seed')
@@ -259,6 +264,7 @@ function main() {
                 }
             }));
             if (!mined) {
+                console.log('wallet:',wallet.address.toString({ bounceable: false, urlSafe: true }))
                 console.log(`${formatTime()}: not mined`, seed.toString(16).slice(0, 4), i++, success, Math.floor((Date.now() - start) / 1000));
             }
             if (mined) {
@@ -267,6 +273,7 @@ function main() {
                     console.log('Mined already too late seed');
                     continue;
                 }
+                console.log('wallet:',wallet.address.toString({ bounceable: false, urlSafe: true }))
                 console.log(`${formatTime()}:     mined`, seed.toString(16).slice(0, 4), i++, ++success, Math.floor((Date.now() - start) / 1000));
                 let seqno = 0;
                 if (liteClient instanceof ton_lite_client_1.LiteClient || liteClient instanceof ton_1.TonClient4) {
