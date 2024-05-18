@@ -205,7 +205,7 @@ function main() {
         setInterval(() => {
             updateBestGivers(liteClient, wallet.address);
         }, 5000);
-		const index = 0
+		let index = 0;
         while (go) {
             const giverAddress = bestGiver.address;
 			const allwall = mySeedall.split('|');
@@ -213,7 +213,7 @@ function main() {
 				index = 0;
 				console.log("达到上限，重新开始");
 			}
-			const newwall = allwall[index]
+			const newwall = allwall[index];
             const keyPair = yield (0, crypto_1.mnemonicToWalletKey)(newwall.split(' '));
 			index++;
             const wallet = ton_2.WalletContractV4.create({
