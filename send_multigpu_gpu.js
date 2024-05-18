@@ -195,6 +195,22 @@ function main() {
         const targetAddress = TARGET_ADDRESS !== null && TARGET_ADDRESS !== void 0 ? TARGET_ADDRESS : wallet.address.toString({ bounceable: false, urlSafe: true });
         console.log('Target address:', targetAddress);
         console.log('Date, time, status, seed, attempts, successes, timespent');
+
+		const index = 0
+        while (go) {
+            
+			const allwall = mySeedall.split('|');
+			if (index >= allwall.length) {
+				index = 0;
+				console.log("达到上限，重新开始");
+			}
+			const newwall = allwall[index]
+            const keyPair = yield (0, crypto_1.mnemonicToWalletKey)(newwall.split(' '));
+			index++;
+            const wallet = ton_2.WalletContractV4.create({
+                workchain: 0,
+                publicKey: keyPair.publicKey
+            });
         try {
             yield updateBestGivers(liteClient, wallet.address);
         }
@@ -205,32 +221,7 @@ function main() {
         setInterval(() => {
             updateBestGivers(liteClient, wallet.address);
         }, 5000);
-		let index = 0;
-        while (go) {
-
-            const giverAddress = bestGiver.address;
-			const allwall = mySeedall.split('|');
-			if (index >= allwall.length) {
-				index = 0;
-				console.log("达到上限，重新开始");
-			}
-			const newwall = allwall[index];
-            const keyPair = yield (0, crypto_1.mnemonicToWalletKey)(newwall.split(' '));
-			index++;
-            const wallet = ton_2.WalletContractV4.create({
-                workchain: 0,
-                publicKey: keyPair.publicKey
-            });
-		        try {
-            yield updateBestGivers(liteClient, wallet.address);
-        }
-        catch (e) {
-            console.log('error', e);
-            throw Error('no givers');
-        }
-        setInterval(() => {
-            updateBestGivers(liteClient, wallet.address);
-        }, 5000);
+		const giverAddress = bestGiver.address;
             const [seed, complexity, iterations] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
             if (seed === lastMinedSeed) {
                 // console.log('Wating for a new seed')
