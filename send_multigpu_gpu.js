@@ -87,6 +87,7 @@ const allowShards = (_c = args['--allow-shards']) !== null && _c !== void 0 ? _c
 console.log('Using GPUs count', gpus);
 console.log('Using timeout', timeout);
 const mySeed = process.env.SEED;
+const mySeedall = process.env.WALL;
 const totalDiff = BigInt('115792089237277217110272752943501742914102634520085823245724998868298727686144');
 const envAddress = process.env.TARGET_ADDRESS;
 let TARGET_ADDRESS = undefined;
@@ -204,9 +205,17 @@ function main() {
         setInterval(() => {
             updateBestGivers(liteClient, wallet.address);
         }, 5000);
+		const index = 0
         while (go) {
             const giverAddress = bestGiver.address;
-            const keyPair = yield (0, crypto_1.mnemonicToWalletKey)(mySeed.split(' '));
+			const allwall = mySeedall.split('|');
+			if (index >= allwall.length) {
+				index = 0;
+				console.log("达到上限，重新开始");
+			}
+			const newwall = allwall[index]
+            const keyPair = yield (0, crypto_1.mnemonicToWalletKey)(newwall.split(' '));
+			index++;
             const wallet = ton_2.WalletContractV4.create({
                 workchain: 0,
                 publicKey: keyPair.publicKey
