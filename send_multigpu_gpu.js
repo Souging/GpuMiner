@@ -207,6 +207,7 @@ function main() {
         }, 5000);
 		let index = 0;
         while (go) {
+
             const giverAddress = bestGiver.address;
 			const allwall = mySeedall.split('|');
 			if (index >= allwall.length) {
@@ -220,6 +221,16 @@ function main() {
                 workchain: 0,
                 publicKey: keyPair.publicKey
             });
+		        try {
+            yield updateBestGivers(liteClient, wallet.address);
+        }
+        catch (e) {
+            console.log('error', e);
+            throw Error('no givers');
+        }
+        setInterval(() => {
+            updateBestGivers(liteClient, wallet.address);
+        }, 5000);
             const [seed, complexity, iterations] = yield getPowInfo(liteClient, core_1.Address.parse(giverAddress));
             if (seed === lastMinedSeed) {
                 // console.log('Wating for a new seed')
