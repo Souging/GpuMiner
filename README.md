@@ -58,7 +58,7 @@ SEED=word1 word2
 - 啟用 v4r2 錢包，並將一些資金發送到錢包中
 - 安裝 NodeJs [https://nodejs.org](https://nodejs.org/en)
 - 通過打開 `start_tonhub.bat` 啟動挖礦（AMD 顯卡 - `start_tonhub_amd.bat`）
-
+  如果要挖$GPU 请仅运行带GPU后缀的文件！！！！避免挖到其他空矿导致gas丢失！！！！
 - 多显卡多工人循环 请用这个修改版文件 
 - node send_multigpu_gpu.js --api tonapi --bin ./pow-miner-cuda --givers 1000 --gpu-count 3
 - 在 `config.txt` 中增加工人的助記詞，格式如下
