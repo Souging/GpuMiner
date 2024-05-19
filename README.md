@@ -58,3 +58,13 @@ SEED=word1 word2
 - 啟用 v4r2 錢包，並將一些資金發送到錢包中
 - 安裝 NodeJs [https://nodejs.org](https://nodejs.org/en)
 - 通過打開 `start_tonhub.bat` 啟動挖礦（AMD 顯卡 - `start_tonhub_amd.bat`）
+
+- 多显卡多工人循环 请用这个修改版文件 
+- node send_multigpu_gpu.js --api tonapi --bin ./pow-miner-cuda --givers 1000 --gpu-count 3
+- 在 `config.txt` 中增加工人的助記詞，格式如下
+- SEED=你接收$GPU的的钱包词
+- WALL=woker1|woker2|woker3|woker4|woker5
+- TONAPI_TOKEN=api
+- 这个api去这里注册创建 tonconsole.com
+
+
